@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Record Card</title>
+  <title>Archival Repository — 20 Specimens</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
   <style>
     body {
       font-family: 'Inter', sans-serif;
+    }
+
+    .font-mono-specimen {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .font-serif-document {
+      font-family: 'Playfair Display', serif;
     }
 
     .perspective-1000 {
@@ -39,7 +47,7 @@
       opacity: 1;
       letter-spacing: normal;
       will-change: filter, opacity, letter-spacing;
-      isolation: isolate; /* Prevents blur filter bleed to parent borders */
+      isolation: isolate;
     }
 
     /* Standard fields dissolve into background noise within 10 seconds */
@@ -69,241 +77,607 @@
     .instant-reset .field-value {
       transition: none !important;
     }
+
+    /* Custom scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
   </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4 text-slate-800">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900">
 
-  <!-- 3D Perspective Card Container (460px x 520px) -->
-  <div class="perspective-1000 w-full max-w-[460px] h-[520px]">
-    
-    <!-- Inner Flippable Card Element -->
-    <div id="cardInner" class="relative w-full h-full transition-transform duration-700 transform-style-3d rounded-2xl shadow-xl shadow-slate-200/60">
-      
-      <!-- FRONT FACE -->
-      <div id="cardFront" class="absolute inset-0 w-full h-full bg-white rounded-2xl border border-slate-200/60 p-6 flex flex-col justify-between backface-hidden">
-        
-        <!-- Top & Middle Content Group -->
-        <div class="flex flex-col gap-5">
-          
-          <!-- Image Container -->
-          <div id="valFrontImage" class="w-full h-60 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 rounded-xl border border-slate-200/80 flex flex-col items-center justify-center gap-3 overflow-hidden relative transition-all">
-            <div class="p-4 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400 animate-pulse">
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <span class="text-xs font-medium tracking-wide text-slate-400 uppercase">Loading Image...</span>
-          </div>
-
-          <!-- Title & Subtitle (Place) -->
-          <div class="space-y-1 px-1">
-            <h2 id="valFrontTitle" class="text-xl font-bold text-slate-900 tracking-tight leading-snug">
-              Loading Title...
-            </h2>
-            <p id="valFrontPlace" class="text-xs text-slate-500 font-normal leading-relaxed">
-              Loading Location...
-            </p>
-          </div>
-
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-mono text-sm font-bold shadow-inner">
+          20
         </div>
-
-        <!-- Action Button (Flips Card to Back) -->
-        <button onclick="flipCard()" class="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white text-sm font-semibold rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2 group">
-          <svg class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 01-2 2M5 8v10a2 2 0 002-2V8m-9 4h4"></path>
-          </svg>
-          <span>Archive this</span>
-        </button>
-
+        <div>
+          <h1 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+            ARCHIVAL REPOSITORY
+            <span class="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono font-normal">CLASSIFIED</span>
+          </h1>
+          <p class="text-xs text-slate-400">20 Active Specimens • 15 Images • 3 Audio • 2 Text</p>
+        </div>
       </div>
 
-      <!-- BACK FACE -->
-      <div id="cardBack" class="absolute inset-0 w-full h-full bg-amber-50/40 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between backface-hidden rotate-y-180 font-mono text-slate-800">
+      <!-- Filter Tabs & Search Bar -->
+      <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+        <div class="relative flex-1 md:w-56">
+          <input type="text" id="searchInput" oninput="filterRecords()" placeholder="Search catalog..." class="w-full bg-slate-900 border border-slate-800 rounded-lg text-xs px-3 py-2 pl-8 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/50 transition-colors">
+          <svg class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+
+        <div class="flex items-center bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-medium">
+          <button onclick="setCategoryFilter('all')" id="btnFilterAll" class="px-2.5 py-1 rounded-md text-amber-400 bg-slate-800 transition-all">All (20)</button>
+          <button onclick="setCategoryFilter('image')" id="btnFilterImage" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">Image (15)</button>
+          <button onclick="setCategoryFilter('sound')" id="btnFilterSound" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">Sound (3)</button>
+          <button onclick="setCategoryFilter('text')" id="btnFilterText" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">Text (2)</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div id="recordsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Dynamically populated via JavaScript -->
+    </div>
+  </main>
+
+  <div id="modalOverlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+    <div class="relative w-full max-w-[480px] flex flex-col items-center">
+      
+      <!-- Close Button -->
+      <button onclick="closeModal()" class="absolute -top-12 right-0 md:-right-10 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <!-- 3D Flippable Card Stage (460px x 520px standard) -->
+      <div class="perspective-1000 w-full max-w-[460px] h-[520px]">
         
-        <!-- Archival Specimen Label Box -->
-        <div class="flex-1 flex flex-col justify-between border border-slate-400/80 rounded-lg p-4 bg-white/80 shadow-sm relative overflow-hidden">
+        <div id="cardInner" class="relative w-full h-full transition-transform duration-700 transform-style-3d rounded-2xl shadow-2xl">
           
-          <!-- Top Header with Catalog Number -->
-          <div class="border-b border-slate-300 pb-2 mb-3 flex items-center justify-between shrink-0">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 select-none">Specimen Label</span>
-            <span id="valCatalog" class="text-xs font-bold tracking-wider text-slate-900 bg-slate-100 border border-slate-300 px-2 py-0.5 rounded shadow-none select-none">CAT NO. ---</span>
-          </div>
-
-          <!-- Label Fields -->
-          <div class="space-y-3 text-xs flex-1 flex flex-col justify-around">
+          <!-- FRONT FACE -->
+          <div id="cardFront" class="absolute inset-0 w-full h-full bg-slate-900 rounded-2xl border border-slate-700/60 p-6 flex flex-col justify-between backface-hidden text-slate-100 shadow-xl overflow-hidden">
             
-            <!-- Field 1: Title -->
-            <div class="border-b border-slate-200 pb-1.5 overflow-hidden">
-              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">Title</span>
-              <p id="valTitle" class="field-value field-value-standard text-slate-900 font-semibold truncate">...</p>
-            </div>
+            <div class="flex flex-col gap-4 h-full">
+              <!-- Top Badge / Header -->
+              <div class="flex items-center justify-between shrink-0 border-b border-slate-800 pb-2">
+                <span id="valFrontBadge" class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded bg-slate-800 text-amber-400 border border-slate-700">IMAGE SPECIMEN</span>
+                <span id="valFrontCatalog" class="text-xs font-mono text-slate-400">REC-001</span>
+              </div>
 
-            <!-- Field 2: Date and place -->
-            <div class="border-b border-slate-200 pb-1.5 overflow-hidden">
-              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">Date and place</span>
-              <p id="valDatePlace" class="field-value field-value-standard text-slate-700 truncate">...</p>
-            </div>
+              <!-- Media Showcase Box -->
+              <div id="mediaBox" class="w-full h-56 bg-slate-950 rounded-xl border border-slate-800 flex flex-col items-center justify-center relative overflow-hidden shrink-0">
+                <!-- Injected via JS depending on record type -->
+              </div>
 
-            <!-- Field 3: Recorded by -->
-            <div class="border-b border-slate-200 pb-1.5 overflow-hidden">
-              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">Recorded by</span>
-              <p id="valRecorder" class="field-value field-value-standard text-slate-700 truncate">...</p>
-            </div>
+              <!-- Title & Location -->
+              <div class="space-y-1 px-1 flex-1 overflow-y-auto">
+                <h2 id="valFrontTitle" class="text-lg font-bold text-white tracking-tight leading-snug">
+                  Loading Title...
+                </h2>
+                <p id="valFrontPlace" class="text-xs text-slate-400 font-normal leading-relaxed flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-amber-400/80 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  <span id="valFrontPlaceText">Loading Location...</span>
+                </p>
+                <p id="valFrontDate" class="text-[11px] text-slate-500 font-mono">Date: --</p>
+              </div>
 
-            <!-- Field 4: What was not captured (THE SURVIVOR) -->
-            <div class="overflow-hidden h-[48px]">
-              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">What was not captured</span>
-              <p id="valNotCaptured" class="field-value field-value-survivor text-slate-800 text-[11px] leading-relaxed italic font-medium">
-                ...
-              </p>
+              <!-- Action Button (Flips Card) -->
+              <button onclick="flipCard()" class="w-full py-3 px-4 bg-amber-500 hover:bg-amber-400 active:scale-[0.99] text-slate-950 text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/10 transition-all flex items-center justify-center gap-2 group shrink-0">
+                <svg class="w-4 h-4 text-slate-900 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                <span>Examine Specimen Label</span>
+              </button>
             </div>
 
           </div>
 
-          <!-- Bottom Archival Stamp/Footer -->
-          <div class="mt-3 pt-2 border-t border-slate-300 flex items-center justify-between text-[9px] text-slate-400 uppercase tracking-widest shrink-0 select-none">
-            <span id="valCertainty">Certainty: --</span>
-            <span>Archival Div.</span>
+          <!-- BACK FACE (ARCHIVAL SPECIMEN LABEL) -->
+          <div id="cardBack" class="absolute inset-0 w-full h-full bg-amber-50/95 rounded-2xl border border-slate-300 p-6 flex flex-col justify-between backface-hidden rotate-y-180 font-mono-specimen text-slate-900 shadow-xl">
+            
+            <!-- Archival Specimen Label Box -->
+            <div class="flex-1 flex flex-col justify-between border-2 border-slate-800 rounded-lg p-4 bg-amber-50/40 shadow-sm relative overflow-hidden">
+              
+              <!-- Top Header with Catalog Number -->
+              <div class="border-b-2 border-slate-800 pb-2 mb-3 flex items-center justify-between shrink-0">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-600 select-none">Specimen Label</span>
+                <span id="valCatalog" class="text-xs font-bold tracking-wider text-slate-900 bg-amber-100/80 border border-slate-700 px-2 py-0.5 rounded shadow-none select-none">REC-001</span>
+              </div>
+
+              <!-- Label Fields -->
+              <div class="space-y-3 text-xs flex-1 flex flex-col justify-around">
+                
+                <!-- Field 1: Title -->
+                <div class="border-b border-slate-300/80 pb-1.5 overflow-hidden">
+                  <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5 select-none">Title</span>
+                  <p id="valTitle" class="field-value field-value-standard text-slate-900 font-bold truncate">...</p>
+                </div>
+
+                <!-- Field 2: Date and place -->
+                <div class="border-b border-slate-300/80 pb-1.5 overflow-hidden">
+                  <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5 select-none">Date and place</span>
+                  <p id="valDatePlace" class="field-value field-value-standard text-slate-800 truncate">...</p>
+                </div>
+
+                <!-- Field 3: Recorded by -->
+                <div class="border-b border-slate-300/80 pb-1.5 overflow-hidden">
+                  <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-0.5 select-none">Recorded by</span>
+                  <p id="valRecorder" class="field-value field-value-standard text-slate-800 truncate">...</p>
+                </div>
+
+                <!-- Field 4: What was not captured (THE SURVIVOR) -->
+                <div class="overflow-hidden h-[54px] bg-amber-100/40 p-2 rounded border border-slate-300/60">
+                  <span class="block text-[9px] font-bold uppercase tracking-wider text-amber-900/80 mb-0.5 select-none">What was not captured</span>
+                  <p id="valNotCaptured" class="field-value field-value-survivor text-slate-900 text-[11px] leading-relaxed italic font-medium">
+                    ...
+                  </p>
+                </div>
+
+              </div>
+
+              <!-- Bottom Archival Stamp/Footer -->
+              <div class="mt-3 pt-2 border-t border-slate-400 flex items-center justify-between text-[9px] text-slate-600 uppercase tracking-widest shrink-0 select-none">
+                <span id="valCertainty">Certainty: 3/5</span>
+                <span>Archival Div.</span>
+              </div>
+
+            </div>
+
+            <!-- Flip Back Action Button -->
+            <button onclick="flipCard()" class="w-full mt-4 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold uppercase tracking-wider rounded-xl transition-all duration-200 flex items-center justify-center gap-2 group shrink-0">
+              <svg class="w-4 h-4 text-amber-400 group-hover:-rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+              <span>Return to Front</span>
+            </button>
+
           </div>
 
         </div>
-
-        <!-- Flip Back Action Button -->
-        <button onclick="flipCard()" class="w-full mt-4 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold uppercase tracking-wider rounded-xl transition-all duration-200 flex items-center justify-center gap-2 group">
-          <svg class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
-          </svg>
-          <span>Return to Front</span>
-        </button>
 
       </div>
 
     </div>
-
   </div>
 
   <script>
+    // Complete 20-Record Dataset
+    const recordsData = [
+      // --- 15 IMAGE RECORDS ---
+      {
+        catalog_id: "REC-001",
+        type: "image",
+        title: "My grandmother's soup pot",
+        date: "2026-09-03",
+        place: "her kitchen, Sham Shui Po",
+        recorder: "Self",
+        image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the smell of star anise, and the distinct clatter of the lid against the rim",
+        certainty: 4
+      },
+      {
+        catalog_id: "REC-002",
+        type: "image",
+        title: "Night tailor's neon sign",
+        date: "2026-08-14",
+        place: "Shanghai Street, Jordan",
+        recorder: "Archive Field Team A",
+        image: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the low buzz of the transformer high on the brick wall",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-003",
+        type: "image",
+        title: "Morning birdcage in tree",
+        date: "2026-07-22",
+        place: "Yuen Po Street Bird Garden, Mong Kok",
+        recorder: "L. K. Wong",
+        image: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the smell of wet teakwood and the rustle of porcelain water dishes",
+        certainty: 3
+      },
+      {
+        catalog_id: "REC-004",
+        type: "image",
+        title: "Rusting post box #42",
+        date: "2026-06-11",
+        place: "Old Stanley Village Road",
+        recorder: "Heritage Officer 09",
+        image: "https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the hollow metallic thud when the heavy flap drops shut",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-005",
+        type: "image",
+        title: "Steamer basket rising mist",
+        date: "2026-05-30",
+        place: "Dai Pai Dong, Tai Hang",
+        recorder: "C. H. Chan",
+        image: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the sudden wave of humid bamboo steam scalding the face",
+        certainty: 4
+      },
+      {
+        catalog_id: "REC-006",
+        type: "image",
+        title: "Raindrops on tram window",
+        date: "2026-04-19",
+        place: "Johnston Road, Wan Chai",
+        recorder: "Self",
+        image: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the rhythmic ding-ding gonging through the wet floorboards",
+        certainty: 3
+      },
+      {
+        catalog_id: "REC-007",
+        type: "image",
+        title: "Dried seafood glass jars",
+        date: "2026-03-28",
+        place: "Des Voeux Road West, Sheung Wan",
+        recorder: "M. T. Tang",
+        image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the sharp salty sting in the nostrils when the lid unscrews",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-008",
+        type: "image",
+        title: "Pawnshop sign reflection",
+        date: "2026-02-15",
+        place: "Hennessy Road, Wan Chai",
+        recorder: "Archive Field Team B",
+        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the anxiety of the person standing under the wooden counter",
+        certainty: 2
+      },
+      {
+        catalog_id: "REC-009",
+        type: "image",
+        title: "Patterned tile floor",
+        date: "2026-01-08",
+        place: "Mido Cafe, Yau Ma Tei",
+        recorder: "K. Y. Lee",
+        image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the cool touch of the mosaic through thin leather shoes",
+        certainty: 4
+      },
+      {
+        catalog_id: "REC-010",
+        type: "image",
+        title: "Iron accordion gate",
+        date: "2025-12-19",
+        place: "Stone Nullah Lane, Wan Chai",
+        recorder: "Self",
+        image: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the screech of ungreased iron sliding along cold stone tracks",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-011",
+        type: "image",
+        title: "Woven bamboo fish trap",
+        date: "2025-11-04",
+        place: "Tai O Stilt Village",
+        recorder: "S. U. Ho",
+        image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the smell of dried saltwater mud clinging to the split reeds",
+        certainty: 4
+      },
+      {
+        catalog_id: "REC-012",
+        type: "image",
+        title: "Overgrown banyan roots",
+        date: "2025-10-12",
+        place: "Hollywood Road Park",
+        recorder: "Self",
+        image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the slow damp stillness under the heavy green canopy",
+        certainty: 3
+      },
+      {
+        catalog_id: "REC-013",
+        type: "image",
+        title: "Mahjong tiles stacked on felt",
+        date: "2025-09-01",
+        place: "Residential Flat, North Point",
+        recorder: "Grandchild #3",
+        image: "https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the thunderous slap of tiles when washing the table between rounds",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-014",
+        type: "image",
+        title: "Last ferry light at dusk",
+        date: "2025-08-20",
+        place: "Yung Shue Wan Pier, Lamma Island",
+        recorder: "Archive Field Team A",
+        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the rhythmic thrum of the diesel engine vibrating through the wooden bench",
+        certainty: 4
+      },
+      {
+        catalog_id: "REC-015",
+        type: "image",
+        title: "Old transistor radio on stool",
+        date: "2025-07-04",
+        place: "Kowloon City Market Lane",
+        recorder: "Self",
+        image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=80",
+        not_captured: "the crackle of static between Cantonese opera broadcasts",
+        certainty: 3
+      },
+
+      // --- 3 SOUND RECORDS ---
+      {
+        catalog_id: "REC-016",
+        type: "sound",
+        title: "Bamboo scaffolding creak in typhoon wind",
+        date: "2026-08-23",
+        place: "Peking Road, Tsim Sha Tsui",
+        recorder: "Acoustic Field Unit",
+        audio_frequency: "44.1kHz • 16-bit Mono",
+        sound_preset: "typhoon",
+        not_captured: "the physical sway of the streetlights and the sting of horizontal rain",
+        certainty: 4
+      },
+      {
+        catalog_id: "REC-017",
+        type: "sound",
+        title: "Star Ferry boarding bell resonance",
+        date: "2026-05-12",
+        place: "Central Pier No. 7, Victoria Harbour",
+        recorder: "Self",
+        audio_frequency: "48kHz • 24-bit Stereo",
+        sound_preset: "bell",
+        not_captured: "the diesel smoke rising off the green deck as ropes were uncoiled",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-018",
+        type: "sound",
+        title: "Summer downpour on tin roof",
+        date: "2026-06-30",
+        place: "Village House, Shek O",
+        recorder: "R. D. Silva",
+        audio_frequency: "44.1kHz • 16-bit Ambient",
+        sound_preset: "rain",
+        not_captured: "the damp earth smell lifting off the vegetable garden outside",
+        certainty: 4
+      },
+
+      // --- 2 TEXT RECORDS ---
+      {
+        catalog_id: "REC-019",
+        type: "text",
+        title: "Handwritten herbal remedy note",
+        date: "1984-11-12",
+        place: "Herbalist Shop, Hollywood Road",
+        recorder: "Family Ledger Archive",
+        text_content: "For persistent autumn cough:\n3 mace dried tangerine peel (aged > 10 yrs)\n2 taels wild lily bulbs\nSimmer gently over clay stove for two hours.\nDrink before sleeping.",
+        not_captured: "the precise handwriting tremor of a grandfather's aging hand",
+        certainty: 5
+      },
+      {
+        catalog_id: "REC-020",
+        type: "text",
+        title: "Unsent telegram draft found in drawer",
+        date: "1992-06-30",
+        place: "Railway Depot Office, Hung Hom",
+        recorder: "Stationmaster Records",
+        text_content: "STOP. TRAIN DEPARTING AT DUSK. DO NOT WAIT AT THE PLATFORM. ALL DOCUMENTS PACKED. SEE YOU IN GUANGZHOU SOON.",
+        not_captured: "the blue ink stain smeared across the thumb from holding the pen too tightly",
+        certainty: 3
+      }
+    ];
+
+    let currentFilter = 'all';
+    let activeAudioContext = null;
+    let activeOscillator = null;
     let isFlipped = false;
+    let activeRecord = null;
 
-    // Fallback data matching user's record JSON
-    const fallbackData = {
-      catalog_id: "REC-001",
-      title: "My grandmother's soup pot",
-      date: "2026-09-03",
-      place: "her kitchen, Sham Shui Po",
-      recorder: "your name",
-      image: "assets/image.jpg",
-      not_captured: "the smell, and the sound of the lid",
-      certainty: 3
-    };
+    function renderGallery() {
+      const grid = document.getElementById('recordsGrid');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
 
-    // Online backup image matching soup pot theme for web preview mode
-    const soupPotOnlineFallback = "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80";
+      const filtered = recordsData.filter(rec => {
+        const matchesCategory = currentFilter === 'all' || rec.type === currentFilter;
+        const matchesSearch = rec.title.toLowerCase().includes(searchVal) ||
+                              rec.place.toLowerCase().includes(searchVal) ||
+                              rec.catalog_id.toLowerCase().includes(searchVal);
+        return matchesCategory && matchesSearch;
+      });
 
-    function handleImageFallback(img, cleanName, onlineUrl) {
-      if (!img.dataset.triedLocal) {
-        img.dataset.triedLocal = 'true';
-        img.src = cleanName;
-      } else if (!img.dataset.triedOnline) {
-        img.dataset.triedOnline = 'true';
-        img.src = onlineUrl;
-      } else {
-        img.onerror = null;
-        img.parentElement.innerHTML = `
-          <div class="p-4 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center text-slate-500">
+            <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+            <p class="text-sm font-medium">No specimens match your search criteria.</p>
           </div>
-          <span class="text-xs font-medium tracking-wide text-slate-400 uppercase text-center px-4">Image Not Found</span>
         `;
+        return;
       }
+
+      grid.innerHTML = filtered.map(rec => {
+        let typeIcon = '';
+        let badgeColor = '';
+        if (rec.type === 'image') {
+          typeIcon = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`;
+          badgeColor = 'bg-slate-800 text-slate-300 border-slate-700';
+        } else if (rec.type === 'sound') {
+          typeIcon = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>`;
+          badgeColor = 'bg-amber-950/80 text-amber-400 border-amber-800/80';
+        } else {
+          typeIcon = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>`;
+          badgeColor = 'bg-emerald-950/80 text-emerald-400 border-emerald-800/80';
+        }
+
+        return `
+          <div onclick="openModal('${rec.catalog_id}')" class="group bg-slate-950 border border-slate-800 hover:border-amber-500/50 rounded-xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 cursor-pointer">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border ${badgeColor} flex items-center gap-1">
+                  ${typeIcon}
+                  ${rec.type}
+                </span>
+                <span class="text-xs font-mono text-slate-500 group-hover:text-amber-400 transition-colors">${rec.catalog_id}</span>
+              </div>
+
+              <!-- Media Preview Area -->
+              <div class="w-full h-36 bg-slate-900 rounded-lg overflow-hidden relative border border-slate-800/80 flex items-center justify-center">
+                ${rec.type === 'image' ? `
+                  <img src="${rec.image}" alt="${rec.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                ` : rec.type === 'sound' ? `
+                  <div class="flex flex-col items-center gap-2 text-amber-400/80 group-hover:text-amber-400 transition-colors">
+                    <svg class="w-10 h-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 .895-2 3-2 3 .895 3 2zm12 0c0 1.105-1.343 2-3 2s-3-.895-3-2 .895-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                    <span class="text-[11px] font-mono tracking-wider text-slate-400">AUDIO SPECIMEN</span>
+                  </div>
+                ` : `
+                  <div class="p-3 text-emerald-400/80 group-hover:text-emerald-300 transition-colors font-serif-document text-xs line-clamp-4 italic">
+                    "${rec.text_content}"
+                  </div>
+                `}
+              </div>
+
+              <div>
+                <h3 class="text-sm font-bold text-slate-200 group-hover:text-white transition-colors line-clamp-1">${rec.title}</h3>
+                <p class="text-xs text-slate-400 line-clamp-1 mt-0.5">${rec.place}</p>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-2.5 border-t border-slate-900 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+              <span>${rec.date}</span>
+              <span class="text-amber-500/80 group-hover:translate-x-1 transition-transform">Examine →</span>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function populateRecord(data) {
-      // Catalog ID
-      const catalogEl = document.getElementById('valCatalog');
-      if (catalogEl && data.catalog_id) {
-        catalogEl.textContent = data.catalog_id.startsWith('CAT') ? data.catalog_id : `CAT NO. ${data.catalog_id}`;
-      }
-
-      // Title (Front & Back)
-      if (data.title) {
-        const frontTitle = document.getElementById('valFrontTitle');
-        const backTitle = document.getElementById('valTitle');
-        if (frontTitle) frontTitle.textContent = data.title;
-        if (backTitle) backTitle.textContent = data.title;
-      }
-
-      // Front Place
-      const frontPlaceEl = document.getElementById('valFrontPlace');
-      if (frontPlaceEl) {
-        frontPlaceEl.textContent = data.place || '';
-      }
-
-      // Date and place (Back)
-      const datePlaceEl = document.getElementById('valDatePlace');
-      const dateStr = data.date || '';
-      const placeStr = data.place || '';
-      if (datePlaceEl) {
-        datePlaceEl.textContent = [dateStr, placeStr].filter(Boolean).join(' — ');
-      }
-
-      // Recorder
-      const recorderEl = document.getElementById('valRecorder');
-      if (recorderEl && data.recorder) {
-        recorderEl.textContent = data.recorder;
-      }
-
-      // What was not captured
-      const notCapturedEl = document.getElementById('valNotCaptured');
-      if (notCapturedEl && data.not_captured) {
-        notCapturedEl.textContent = data.not_captured;
-      }
-
-      // Certainty / Status
-      const certaintyEl = document.getElementById('valCertainty');
-      if (certaintyEl && data.certainty !== undefined) {
-        certaintyEl.textContent = `Certainty: ${data.certainty}`;
-      }
-
-      // Image Handling with resilient fallback chain
-      const imageContainer = document.getElementById('valFrontImage');
-      if (imageContainer && data.image) {
-        const primaryPath = data.image;
-        const cleanName = data.image.replace(/^assets\//, '');
-
-        imageContainer.innerHTML = `
-          <img id="cardFrontImg" 
-               src="${primaryPath}" 
-               alt="${data.title || 'Record Image'}" 
-               class="w-full h-full object-cover rounded-xl" 
-               onerror="handleImageFallback(this, '${cleanName}', '${soupPotOnlineFallback}')">
-        `;
-      }
+    function setCategoryFilter(category) {
+      currentFilter = category;
+      ['All', 'Image', 'Sound', 'Text'].forEach(cat => {
+        const btn = document.getElementById(`btnFilter${cat}`);
+        if (cat.toLowerCase() === category) {
+          btn.className = 'px-2.5 py-1 rounded-md text-amber-400 bg-slate-800 transition-all font-semibold';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all font-normal';
+        }
+      });
+      renderGallery();
     }
 
-    async function loadRecordData() {
-      try {
-        const response = await fetch('record.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        populateRecord(data);
-      } catch (err) {
-        console.warn('Could not fetch record.json directly, applying fallback values:', err);
-        populateRecord(fallbackData);
+    function filterRecords() {
+      renderGallery();
+    }
+
+    function openModal(catalogId) {
+      activeRecord = recordsData.find(r => r.catalog_id === catalogId);
+      if (!activeRecord) return;
+
+      // Populate Modal Fields
+      document.getElementById('valFrontCatalog').textContent = activeRecord.catalog_id;
+      document.getElementById('valFrontTitle').textContent = activeRecord.title;
+      document.getElementById('valFrontPlaceText').textContent = activeRecord.place;
+      document.getElementById('valFrontDate').textContent = `Date: ${activeRecord.date}`;
+      document.getElementById('valFrontBadge').textContent = `${activeRecord.type.toUpperCase()} SPECIMEN`;
+
+      // Back Face Specimen Label Fields
+      document.getElementById('valCatalog').textContent = activeRecord.catalog_id;
+      document.getElementById('valTitle').textContent = activeRecord.title;
+      document.getElementById('valDatePlace').textContent = `${activeRecord.date} — ${activeRecord.place}`;
+      document.getElementById('valRecorder').textContent = activeRecord.recorder;
+      document.getElementById('valNotCaptured').textContent = activeRecord.not_captured;
+      document.getElementById('valCertainty').textContent = `Certainty: ${activeRecord.certainty}/5`;
+
+      // Populate Media Box according to Specimen Type
+      const mediaBox = document.getElementById('mediaBox');
+      if (activeRecord.type === 'image') {
+        mediaBox.innerHTML = `
+          <img src="${activeRecord.image}" alt="${activeRecord.title}" class="w-full h-full object-cover rounded-xl">
+        `;
+      } else if (activeRecord.type === 'sound') {
+        mediaBox.innerHTML = `
+          <div class="w-full h-full p-4 flex flex-col items-center justify-center gap-3 bg-slate-950 text-amber-400">
+            <div class="flex items-center gap-1.5 h-12">
+              <span class="w-1 bg-amber-400/80 rounded-full h-4 animate-bounce" style="animation-delay: 0.1s"></span>
+              <span class="w-1 bg-amber-400/80 rounded-full h-8 animate-bounce" style="animation-delay: 0.2s"></span>
+              <span class="w-1 bg-amber-400/80 rounded-full h-12 animate-bounce" style="animation-delay: 0.3s"></span>
+              <span class="w-1 bg-amber-400/80 rounded-full h-6 animate-bounce" style="animation-delay: 0.4s"></span>
+              <span class="w-1 bg-amber-400/80 rounded-full h-10 animate-bounce" style="animation-delay: 0.2s"></span>
+            </div>
+            <span class="text-xs font-mono text-slate-400">${activeRecord.audio_frequency}</span>
+            <button onclick="playSynthesizedSound('${activeRecord.sound_preset}')" class="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Synthesize Audio Preview</span>
+            </button>
+          </div>
+        `;
+      } else if (activeRecord.type === 'text') {
+        mediaBox.innerHTML = `
+          <div class="w-full h-full p-4 bg-amber-50 text-slate-900 font-serif-document rounded-xl overflow-y-auto border border-amber-200 shadow-inner flex flex-col justify-between">
+            <div>
+              <span class="text-[9px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Transcript Specimen</span>
+              <p class="text-xs leading-relaxed whitespace-pre-line italic text-slate-800">"${activeRecord.text_content}"</p>
+            </div>
+            <div class="text-[9px] font-mono text-slate-400 mt-2 border-t border-amber-200/80 pt-1">
+              Document Authenticated
+            </div>
+          </div>
+        `;
       }
+
+      // Reset Card Flip & Decay states
+      isFlipped = false;
+      const cardInner = document.getElementById('cardInner');
+      const cardBack = document.getElementById('cardBack');
+      cardInner.classList.remove('rotate-y-180');
+      cardBack.classList.add('instant-reset');
+      cardBack.classList.remove('is-decayed');
+
+      // Show Modal
+      const overlay = document.getElementById('modalOverlay');
+      overlay.classList.remove('hidden');
+      setTimeout(() => {
+        overlay.classList.remove('opacity-0');
+      }, 10);
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById('modalOverlay');
+      overlay.classList.add('opacity-0');
+      if (activeAudioContext) {
+        activeAudioContext.close();
+        activeAudioContext = null;
+      }
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 300);
     }
 
     function flipCard() {
       const cardInner = document.getElementById('cardInner');
       const cardBack = document.getElementById('cardBack');
       isFlipped = !isFlipped;
-      
+
       if (isFlipped) {
         cardInner.classList.add('rotate-y-180');
         cardBack.classList.remove('instant-reset');
         
+        // Initiate 15-second decay sequence
         setTimeout(() => {
           cardBack.classList.add('is-decayed');
         }, 150);
@@ -314,7 +688,92 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadRecordData);
+    function playSynthesizedSound(preset) {
+      if (activeAudioContext) {
+        activeAudioContext.close();
+      }
+
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      activeAudioContext = new AudioContext();
+      const ctx = activeAudioContext;
+
+      if (preset === 'typhoon') {
+        // Wind noise synthesis
+        const bufferSize = ctx.sampleRate * 2;
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+
+        const whiteNoise = ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(150, ctx.currentTime);
+        filter.frequency.linearRampToValueAtTime(600, ctx.currentTime + 1.5);
+        filter.frequency.linearRampToValueAtTime(120, ctx.currentTime + 3.0);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+
+        whiteNoise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        whiteNoise.start();
+
+      } else if (preset === 'bell') {
+        // Metallic bell harmonic synthesis
+        const freqs = [320, 640, 960, 1280];
+        freqs.forEach(freq => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.2, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.5);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 2.5);
+        });
+
+      } else if (preset === 'rain') {
+        // Gentle rain rumble noise synthesis
+        const bufferSize = ctx.sampleRate * 2;
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+
+        const rainNoise = ctx.createBufferSource();
+        rainNoise.buffer = noiseBuffer;
+        rainNoise.loop = true;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1000, ctx.currentTime);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+
+        rainNoise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        rainNoise.start();
+      }
+    }
+
+    // Initialize application on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGallery();
+    });
   </script>
 </body>
 </html>
