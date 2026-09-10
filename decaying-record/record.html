@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,93 +8,313 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     body {
       font-family: 'Inter', sans-serif;
+    }
+
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* Isolated decay rules applied strictly to field value elements */
+    .field-value {
+      display: block;
+      width: 100%;
+      filter: blur(0px);
+      opacity: 1;
+      letter-spacing: normal;
+      will-change: filter, opacity, letter-spacing;
+      isolation: isolate; /* Prevents blur filter bleed to parent borders */
+    }
+
+    /* Standard fields dissolve into background noise within 10 seconds */
+    .field-value-standard {
+      transition: filter 10s ease-out, opacity 10s ease-out, letter-spacing 10s ease-out;
+    }
+
+    .is-decayed .field-value-standard {
+      filter: blur(8px);
+      opacity: 0.04;
+      letter-spacing: 0.35em;
+    }
+
+    /* The Survivor: "What was not captured" holds crisp legibility through 12s, fading only in the final seconds */
+    .field-value-survivor {
+      transition: filter 15s cubic-bezier(0.85, 0, 0.95, 1),
+                  opacity 15s cubic-bezier(0.85, 0, 0.95, 1),
+                  letter-spacing 15s cubic-bezier(0.85, 0, 0.95, 1);
+    }
+
+    .is-decayed .field-value-survivor {
+      filter: blur(5px);
+      opacity: 0.18;
+      letter-spacing: 0.22em;
+    }
+
+    .instant-reset .field-value {
+      transition: none !important;
     }
   </style>
 </head>
 <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4 text-slate-800">
 
-  <!-- Toast Notification Container -->
-  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-3 rounded-full text-sm font-medium shadow-lg opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2 z-50 transform -translate-y-2">
-    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-    </svg>
-    <span>Item successfully archived!</span>
-  </div>
-
-  <!-- Record Card (460px x 520px target size) -->
-  <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200/60 w-full max-w-[460px] h-[520px] p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-slate-200/80">
+  <!-- 3D Perspective Card Container (460px x 520px) -->
+  <div class="perspective-1000 w-full max-w-[460px] h-[520px]">
     
-    <!-- Top & Middle Content Group -->
-    <div class="flex flex-col gap-5">
+    <!-- Inner Flippable Card Element -->
+    <div id="cardInner" class="relative w-full h-full transition-transform duration-700 transform-style-3d rounded-2xl shadow-xl shadow-slate-200/60">
       
-      <!-- Image Placeholder -->
-      <div class="w-full h-60 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 rounded-xl border border-slate-200/80 flex flex-col items-center justify-center gap-3 group cursor-pointer overflow-hidden relative transition-all">
-        <div class="p-4 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400 group-hover:scale-110 group-hover:text-slate-600 transition-all duration-300">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
+      <!-- FRONT FACE -->
+      <div id="cardFront" class="absolute inset-0 w-full h-full bg-white rounded-2xl border border-slate-200/60 p-6 flex flex-col justify-between backface-hidden">
+        
+        <!-- Top & Middle Content Group -->
+        <div class="flex flex-col gap-5">
+          
+          <!-- Image Container -->
+          <div id="valFrontImage" class="w-full h-60 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200 rounded-xl border border-slate-200/80 flex flex-col items-center justify-center gap-3 overflow-hidden relative transition-all">
+            <div class="p-4 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400 animate-pulse">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <span class="text-xs font-medium tracking-wide text-slate-400 uppercase">Loading Image...</span>
+          </div>
+
+          <!-- Title & Subtitle (Place) -->
+          <div class="space-y-1 px-1">
+            <h2 id="valFrontTitle" class="text-xl font-bold text-slate-900 tracking-tight leading-snug">
+              Loading Title...
+            </h2>
+            <p id="valFrontPlace" class="text-xs text-slate-500 font-normal leading-relaxed">
+              Loading Location...
+            </p>
+          </div>
+
         </div>
-        <span class="text-xs font-medium tracking-wide text-slate-400 uppercase group-hover:text-slate-500 transition-colors">
-          Image Placeholder
-        </span>
+
+        <!-- Action Button (Flips Card to Back) -->
+        <button onclick="flipCard()" class="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white text-sm font-semibold rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2 group">
+          <svg class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 01-2 2M5 8v10a2 2 0 002-2V8m-9 4h4"></path>
+          </svg>
+          <span>Archive this</span>
+        </button>
+
       </div>
 
-      <!-- Title & Subtitle -->
-      <div class="space-y-1.5 px-1">
-        <h2 class="text-xl font-bold text-slate-900 tracking-tight leading-snug">
-          Standard Record Item #204
-        </h2>
-        <p class="text-xs text-slate-500 font-normal leading-relaxed">
-          Last modified on Oct 24, 2026 • 2.4 MB • Public Access
-        </p>
+      <!-- BACK FACE -->
+      <div id="cardBack" class="absolute inset-0 w-full h-full bg-amber-50/40 rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between backface-hidden rotate-y-180 font-mono text-slate-800">
+        
+        <!-- Archival Specimen Label Box -->
+        <div class="flex-1 flex flex-col justify-between border border-slate-400/80 rounded-lg p-4 bg-white/80 shadow-sm relative overflow-hidden">
+          
+          <!-- Top Header with Catalog Number -->
+          <div class="border-b border-slate-300 pb-2 mb-3 flex items-center justify-between shrink-0">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 select-none">Specimen Label</span>
+            <span id="valCatalog" class="text-xs font-bold tracking-wider text-slate-900 bg-slate-100 border border-slate-300 px-2 py-0.5 rounded shadow-none select-none">CAT NO. ---</span>
+          </div>
+
+          <!-- Label Fields -->
+          <div class="space-y-3 text-xs flex-1 flex flex-col justify-around">
+            
+            <!-- Field 1: Title -->
+            <div class="border-b border-slate-200 pb-1.5 overflow-hidden">
+              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">Title</span>
+              <p id="valTitle" class="field-value field-value-standard text-slate-900 font-semibold truncate">...</p>
+            </div>
+
+            <!-- Field 2: Date and place -->
+            <div class="border-b border-slate-200 pb-1.5 overflow-hidden">
+              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">Date and place</span>
+              <p id="valDatePlace" class="field-value field-value-standard text-slate-700 truncate">...</p>
+            </div>
+
+            <!-- Field 3: Recorded by -->
+            <div class="border-b border-slate-200 pb-1.5 overflow-hidden">
+              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">Recorded by</span>
+              <p id="valRecorder" class="field-value field-value-standard text-slate-700 truncate">...</p>
+            </div>
+
+            <!-- Field 4: What was not captured (THE SURVIVOR) -->
+            <div class="overflow-hidden h-[48px]">
+              <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-0.5 select-none">What was not captured</span>
+              <p id="valNotCaptured" class="field-value field-value-survivor text-slate-800 text-[11px] leading-relaxed italic font-medium">
+                ...
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Bottom Archival Stamp/Footer -->
+          <div class="mt-3 pt-2 border-t border-slate-300 flex items-center justify-between text-[9px] text-slate-400 uppercase tracking-widest shrink-0 select-none">
+            <span id="valCertainty">Certainty: --</span>
+            <span>Archival Div.</span>
+          </div>
+
+        </div>
+
+        <!-- Flip Back Action Button -->
+        <button onclick="flipCard()" class="w-full mt-4 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold uppercase tracking-wider rounded-xl transition-all duration-200 flex items-center justify-center gap-2 group">
+          <svg class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+          </svg>
+          <span>Return to Front</span>
+        </button>
+
       </div>
 
     </div>
 
-    <!-- Action Button -->
-    <button id="archiveBtn" onclick="archiveRecord()" class="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white text-sm font-semibold rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2 group">
-      <svg class="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 01-2 2M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-      </svg>
-      <span id="btnText">Archive this</span>
-    </button>
-
   </div>
 
   <script>
-    let isArchived = false;
+    let isFlipped = false;
 
-    function archiveRecord() {
-      const btn = document.getElementById('archiveBtn');
-      const btnText = document.getElementById('btnText');
-      const toast = document.getElementById('toast');
+    // Fallback data matching user's record JSON
+    const fallbackData = {
+      catalog_id: "REC-001",
+      title: "My grandmother's soup pot",
+      date: "2026-09-03",
+      place: "her kitchen, Sham Shui Po",
+      recorder: "your name",
+      image: "assets/image.jpg",
+      not_captured: "the smell, and the sound of the lid",
+      certainty: 3
+    };
 
-      if (!isArchived) {
-        // Switch state to Archived
-        isArchived = true;
-        btn.classList.remove('bg-slate-900', 'hover:bg-slate-800');
-        btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-        btnText.innerText = 'Archived';
+    // Online backup image matching soup pot theme for web preview mode
+    const soupPotOnlineFallback = "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80";
 
-        // Show Toast
-        toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
-        toast.classList.add('opacity-100', 'translate-y-0');
-
-        setTimeout(() => {
-          toast.classList.remove('opacity-100', 'translate-y-0');
-          toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
-        }, 2500);
+    function handleImageFallback(img, cleanName, onlineUrl) {
+      if (!img.dataset.triedLocal) {
+        img.dataset.triedLocal = 'true';
+        img.src = cleanName;
+      } else if (!img.dataset.triedOnline) {
+        img.dataset.triedOnline = 'true';
+        img.src = onlineUrl;
       } else {
-        // Toggle back if clicked again
-        isArchived = false;
-        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-        btn.classList.add('bg-slate-900', 'hover:bg-slate-800');
-        btnText.innerText = 'Archive this';
+        img.onerror = null;
+        img.parentElement.innerHTML = `
+          <div class="p-4 rounded-full bg-white shadow-sm border border-slate-100 text-slate-400">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <span class="text-xs font-medium tracking-wide text-slate-400 uppercase text-center px-4">Image Not Found</span>
+        `;
       }
     }
+
+    function populateRecord(data) {
+      // Catalog ID
+      const catalogEl = document.getElementById('valCatalog');
+      if (catalogEl && data.catalog_id) {
+        catalogEl.textContent = data.catalog_id.startsWith('CAT') ? data.catalog_id : `CAT NO. ${data.catalog_id}`;
+      }
+
+      // Title (Front & Back)
+      if (data.title) {
+        const frontTitle = document.getElementById('valFrontTitle');
+        const backTitle = document.getElementById('valTitle');
+        if (frontTitle) frontTitle.textContent = data.title;
+        if (backTitle) backTitle.textContent = data.title;
+      }
+
+      // Front Place
+      const frontPlaceEl = document.getElementById('valFrontPlace');
+      if (frontPlaceEl) {
+        frontPlaceEl.textContent = data.place || '';
+      }
+
+      // Date and place (Back)
+      const datePlaceEl = document.getElementById('valDatePlace');
+      const dateStr = data.date || '';
+      const placeStr = data.place || '';
+      if (datePlaceEl) {
+        datePlaceEl.textContent = [dateStr, placeStr].filter(Boolean).join(' — ');
+      }
+
+      // Recorder
+      const recorderEl = document.getElementById('valRecorder');
+      if (recorderEl && data.recorder) {
+        recorderEl.textContent = data.recorder;
+      }
+
+      // What was not captured
+      const notCapturedEl = document.getElementById('valNotCaptured');
+      if (notCapturedEl && data.not_captured) {
+        notCapturedEl.textContent = data.not_captured;
+      }
+
+      // Certainty / Status
+      const certaintyEl = document.getElementById('valCertainty');
+      if (certaintyEl && data.certainty !== undefined) {
+        certaintyEl.textContent = `Certainty: ${data.certainty}`;
+      }
+
+      // Image Handling with resilient fallback chain
+      const imageContainer = document.getElementById('valFrontImage');
+      if (imageContainer && data.image) {
+        const primaryPath = data.image;
+        const cleanName = data.image.replace(/^assets\//, '');
+
+        imageContainer.innerHTML = `
+          <img id="cardFrontImg" 
+               src="${primaryPath}" 
+               alt="${data.title || 'Record Image'}" 
+               class="w-full h-full object-cover rounded-xl" 
+               onerror="handleImageFallback(this, '${cleanName}', '${soupPotOnlineFallback}')">
+        `;
+      }
+    }
+
+    async function loadRecordData() {
+      try {
+        const response = await fetch('record.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        populateRecord(data);
+      } catch (err) {
+        console.warn('Could not fetch record.json directly, applying fallback values:', err);
+        populateRecord(fallbackData);
+      }
+    }
+
+    function flipCard() {
+      const cardInner = document.getElementById('cardInner');
+      const cardBack = document.getElementById('cardBack');
+      isFlipped = !isFlipped;
+      
+      if (isFlipped) {
+        cardInner.classList.add('rotate-y-180');
+        cardBack.classList.remove('instant-reset');
+        
+        setTimeout(() => {
+          cardBack.classList.add('is-decayed');
+        }, 150);
+      } else {
+        cardInner.classList.remove('rotate-y-180');
+        cardBack.classList.add('instant-reset');
+        cardBack.classList.remove('is-decayed');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadRecordData);
   </script>
 </body>
 </html>
